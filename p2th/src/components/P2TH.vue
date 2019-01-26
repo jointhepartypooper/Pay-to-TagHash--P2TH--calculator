@@ -2,7 +2,7 @@
   <div class="hello">
     <h3>{{ msg }}</h3>Transaction hash:
     <input
-     v-bind:class="{ notx: !isSHA }"
+      v-bind:class="{ notx: !isSHA }"
       v-model="inputhash"
       size="68"
       placeholder="1bdae84eff34e15399335fc2a48c70fa6b0b9caf972e38b0e3bda106d223f668"
@@ -57,17 +57,15 @@ export default {
         : false;
     },
     p2thPeercoinAddress: function() {
-     
       if (this.isSHA) {
-        var rawinput = this.inputhash;
-   
-        var value = Buffer.from(rawinput);
-        var hash = bitcore.crypto.Hash.sha256(value);
-        var bn = bitcore.crypto.BN.fromBuffer(hash);
+        const txnid = this.inputhash;
 
-        var address = new bitcore.PrivateKey(bn).toAddress();
-    
-        return address.toString();  
+        // Create the compressed address for txnid
+        const binaryTxnId = Buffer.from(txnid, "hex");
+        const bn = bitcore.crypto.BN.fromBuffer(binaryTxnId);
+        const address = new bitcore.PrivateKey(bn).toPublicKey().toAddress();
+
+        return address.toString();
       } else {
         return "";
       }
@@ -92,7 +90,7 @@ li {
 a {
   color: #42b983;
 }
-.notx{
+.notx {
   border: 2px solid salmon;
 }
 </style>
