@@ -12,7 +12,7 @@
 </template>
 
 <script>
-var bitcore = require("bitcore-lib");
+import * as bitcore from "bitcore-lib";
 
 //
 // Set peercoin as default network
