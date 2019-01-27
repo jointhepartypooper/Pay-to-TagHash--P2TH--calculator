@@ -12,13 +12,14 @@
 </template>
 
 <script>
-import * as bitcore from "bitcore-lib";
-
+import {Networks as bitcoreNetworks} from "bitcore-lib";
+import {crypto as bitcorecrypto} from "bitcore-lib";
+import {PrivateKey as bitcorePrivateKey} from "bitcore-lib";
 //
 // Set peercoin as default network
 //
 
-bitcore.Networks.add({
+bitcoreNetworks.add({
   name: "peercoin",
   alias: "ppcoin",
   pubkeyhash: 0x37,
@@ -28,7 +29,7 @@ bitcore.Networks.add({
   xprivkey: 0x0488ade4
 });
 
-bitcore.Networks.add({
+bitcoreNetworks.add({
   name: "peercoin-testnet",
   alias: "ppcoin-test",
   pubkeyhash: 0x6f,
@@ -38,7 +39,7 @@ bitcore.Networks.add({
   xprivkey: 0x04358394
 });
 
-bitcore.Networks.defaultNetwork = bitcore.Networks.get("peercoin");
+bitcoreNetworks.defaultNetwork = bitcoreNetworks.get("peercoin");
 
 export default {
   name: "P2TH",
@@ -62,8 +63,8 @@ export default {
 
         // Create the compressed address for txnid
         const binaryTxnId = Buffer.from(txnid, "hex");
-        const bn = bitcore.crypto.BN.fromBuffer(binaryTxnId);
-        const address = new bitcore.PrivateKey(bn).toPublicKey().toAddress();
+        const bn = bitcorecrypto.BN.fromBuffer(binaryTxnId);
+        const address = new bitcorePrivateKey(bn).toPublicKey().toAddress();
 
         return address.toString();
       } else {
